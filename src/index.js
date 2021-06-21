@@ -23,6 +23,7 @@ let PluginMetaFields = ( props ) => {
     )
 }
 
+// Triggering withSelect.
 PluginMetaFields = withSelect(
     ( select ) => {
         return {
@@ -31,6 +32,7 @@ PluginMetaFields = withSelect(
     }
 )(PluginMetaFields);
 
+// Triggering widthDispatch.
 PluginMetaFields = withDispatch(
     ( dispatch ) => {
         return {
