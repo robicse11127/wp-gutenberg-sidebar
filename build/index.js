@@ -109,13 +109,25 @@ const {
   __
 } = wp.i18n;
 const {
+  Button,
   PanelBody,
-  TextControl
+  TextControl,
+  TextareaControl,
+  SelectControl,
+  RadioControl,
+  ToggleControl,
+  CheckboxControl,
+  DateTimePicker
 } = wp.components;
 const {
   withSelect,
   withDispatch
 } = wp.data;
+const {
+  MediaUpload,
+  MediaUploadCheck
+} = wp.blockEditor;
+const ALLOWED_MEDIA_TYPES = ['image'];
 
 let PluginMetaFields = props => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(PanelBody, {
@@ -124,13 +136,138 @@ let PluginMetaFields = props => {
     initialOpen: true
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(TextControl, {
     value: props.text_field,
-    label: __('Text meta field', 'wp-gutenberg-sidebar')
+    label: __('Text meta field', 'wp-gutenberg-sidebar'),
+    onChange: value => props.onTextFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(TextareaControl, {
+    value: props.textarea_field,
+    label: __('Textarea meta field', 'wp-gutenberg-sidebar'),
+    onChange: value => props.onTextAreaFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(SelectControl, {
+    label: __('Select meta field', 'wp-gutenberg-sidebar'),
+    value: props.select_field,
+    options: [{
+      label: 'Big',
+      value: '100%'
+    }, {
+      label: 'Medium',
+      value: '50%'
+    }, {
+      label: 'Small',
+      value: '25%'
+    }],
+    onChange: value => props.onSelectFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RadioControl, {
+    label: __('Radio meta field', 'wp-gutenberg-sidebar'),
+    help: __('The type of the current user', 'wp-gutenberg-sidebar'),
+    selected: props.radio_field,
+    options: [{
+      label: 'Author',
+      value: 'a'
+    }, {
+      label: 'Editor',
+      value: 'e'
+    }],
+    onChange: value => props.onRadioFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(ToggleControl, {
+    label: __('Toggle meta field', 'wp-gutenberg-sidebar'),
+    help: props.toggle_field ? 'Has fixed background.' : 'No fixed background.',
+    checked: props.toggle_field,
+    onChange: value => props.onToggleFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(CheckboxControl, {
+    label: __('Checkbox meta field', 'wp-gutenberg-sidebar'),
+    help: __('Is the user a author or not?', 'wp-gutenberg-sidebar'),
+    checked: props.checkbox_field,
+    onChange: value => props.onCheckboxFieldChange(value)
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(DateTimePicker, {
+    currentDate: props.date_field,
+    onChange: value => props.onDateFieldChange(value),
+    is12Hour: true
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUploadCheck, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+    onSelect: media => props.onMediaFieldChange(media.url),
+    allowedTypes: ALLOWED_MEDIA_TYPES,
+    value: props.media_field,
+    render: ({
+      open
+    }) => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(Button, {
+      onClick: open
+    }, "Open Media Library")
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    src: props.media_field
   })));
-};
+}; // Triggering withSelect.
+
 
 PluginMetaFields = withSelect(select => {
   return {
-    text_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_text_field']
+    text_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_text_field'],
+    textarea_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_textarea_field'],
+    select_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_select_field'],
+    radio_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_radio_field'],
+    toggle_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_toggle_field'],
+    checkbox_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_checkbox_field'],
+    date_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_date_field'],
+    media_field: select('core/editor').getEditedPostAttribute('meta')['_prefix_media_field']
+  };
+})(PluginMetaFields); // Triggering widthDispatch.
+
+PluginMetaFields = withDispatch(dispatch => {
+  return {
+    onTextFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_text_field: value
+        }
+      });
+    },
+    onTextAreaFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_textarea_field: value
+        }
+      });
+    },
+    onSelectFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_select_field: value
+        }
+      });
+    },
+    onRadioFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_radio_field: value
+        }
+      });
+    },
+    onToggleFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_toggle_field: value
+        }
+      });
+    },
+    onCheckboxFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_checkbox_field: value
+        }
+      });
+    },
+    onDateFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_date_field: value
+        }
+      });
+    },
+    onMediaFieldChange: value => {
+      dispatch('core/editor').editPost({
+        meta: {
+          _prefix_media_field: value
+        }
+      });
+    }
   };
 })(PluginMetaFields);
 registerPlugin('prefix-sidebar', {

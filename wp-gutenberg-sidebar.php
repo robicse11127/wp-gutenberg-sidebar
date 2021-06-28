@@ -35,5 +35,96 @@ function prefix_register_meta_fields() {
             }
         ]
     );
+    register_meta(
+        'post',
+        '_prefix_textarea_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_string',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_select_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_string',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_radio_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_string',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_toggle_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'boolean',
+            'single'            => true,
+            'sanitize_callback' => 'rest_sanitize_boolean',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_checkbox_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'boolean',
+            'single'            => true,
+            'sanitize_callback' => 'rest_sanitize_boolean',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_date_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_string',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
+    register_meta(
+        'post',
+        '_prefix_media_field',
+        [
+            'show_in_rest'      => true,
+            'type'              => 'string',
+            'single'            => true,
+            'sanitize_callback' => 'sanitize_text_string',
+            'auth_callback'     => function() {
+                return current_user_can( 'edit_posts' );
+            }
+        ]
+    );
 }
 add_action( 'init', 'prefix_register_meta_fields' );
